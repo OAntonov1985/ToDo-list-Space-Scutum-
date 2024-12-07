@@ -5,7 +5,7 @@ import './globals.css';
 
 export default function Home() {
     return (
-        <HomeStyle>
+        <HomeStyle className='container'>
             <Header />
             <Main />
         </HomeStyle>
