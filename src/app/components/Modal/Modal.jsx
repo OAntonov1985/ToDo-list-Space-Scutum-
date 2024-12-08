@@ -1,6 +1,5 @@
 import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     ModalText,
     ModalContainer,
@@ -9,15 +8,42 @@ import {
 import { HeaderInputButton } from '../HeaderInputRow/HeaderInputRow.style';
 import { Colors } from '@/constants/colors';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsModalOpen } from '@/store/userSclise';
+import { setIsModalOpen, setIDEdit, setChangeTitleTask } from '@/store/userSclise';
+import { saveChangesInTask } from '@/utils/api/setOps';
 
-
-const text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt porro earum illum quia magnam sapiente sit similique ipsa dolores tenetur, nemo id qui? Voluptatum commodi necessitatibus, molestias accusantium odio itaque!"
 
 export default function ModalWindow() {
-    const [inputText, setInputText] = useState(text);
-    const isModalOpen = useSelector((state) => state.userData.isModalOpen);
+    const [inputText, setInputText] = useState("");
     const dispatch = useDispatch();
+
+    const isModalOpen = useSelector((state) => state.userData.isModalOpen);
+    const idEdit = useSelector((state) => state.userData.idEdit);
+    const data = useSelector((state) => state.userData.data);
+
+    useEffect(() => {
+        if (idEdit) {
+            const itemToEdit = data.filter(item => item.id == idEdit);
+            setInputText(itemToEdit[0].title);
+        }
+    }, [idEdit, data]);
+
+    async function saveChanges() {
+        if (idEdit) {
+            const itemToEdit = data.filter(item => item.id == idEdit);
+            const newData = {
+                userId: itemToEdit[0].userId,
+                id: itemToEdit[0].id,
+                title: inputText,
+                completed: itemToEdit[0].completed
+            }
+            dispatch(setChangeTitleTask(newData));
+            dispatch(setIsModalOpen(false));
+            dispatch(setIDEdit(null));
+
+            const res = await saveChangesInTask(newData.id, newData);
+            alert(res.error ? res.error : "Зміни в завдання внесені успішно");
+        }
+    }
 
     return (
         <>
@@ -54,7 +80,7 @@ export default function ModalWindow() {
                     />
                     <ButtonContainer>
                         <HeaderInputButton onClick={() => (dispatch(setIsModalOpen(false)), setInputText(text))} >Відміна</HeaderInputButton>
-                        <HeaderInputButton onClick={() => dispatch(setIsModalOpen(false))} disabled={inputText.length < 10 || inputText.length > 500}>Зберегти</HeaderInputButton>
+                        <HeaderInputButton onClick={saveChanges} disabled={inputText.length < 10 || inputText.length > 500}>Зберегти</HeaderInputButton>
                     </ButtonContainer>
                 </ModalContainer>
             </Modal>

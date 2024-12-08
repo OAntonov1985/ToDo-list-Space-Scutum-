@@ -24,7 +24,7 @@ export default function MainList({ data }) {
                     <ItemInList key={item.id} item={item} />
                 ))
             ) : (
-                <p>Немає даних для відображення</p>
+                <p style={{ color: "white" }}> Немає даних для відображення</p>
             )}
         </MainListContainer>
     )

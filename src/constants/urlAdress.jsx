@@ -1,0 +1,1 @@
+export const ADRESS = "https://jsonplaceholder.typicode.com";

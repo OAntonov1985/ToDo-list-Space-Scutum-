@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNewTask } from '@/store/userSclise';
+import { setNewTaskAPI } from '@/utils/api/setOps';
 import {
     HeaderInputRowContainer,
     HeaderInput,
@@ -18,7 +19,7 @@ export default function HeaderInputRow() {
     const dispatch = useDispatch();
     const totalData = useSelector((state) => state.userData.data);
 
-    function saveNewTask() {
+    async function saveNewTask() {
         if (inputText.length < 10 || inputText.length > 500) {
             setIsError(true);
         } else {
@@ -29,8 +30,15 @@ export default function HeaderInputRow() {
                 title: inputText,
                 completed: false
             };
-            setInputText("")
-            dispatch(setNewTask(newItem))
+            setInputText("");
+            dispatch(setNewTask(newItem));
+            try {
+                const res = await setNewTaskAPI(newItem);
+                res.error ? alert(res.error) : alert("Завдання успішно додане");
+            } catch (error) {
+                console.error("Error saving task:", error);
+                alert("Не вдалося зберегти завдання.");
+            }
         }
     }
 
