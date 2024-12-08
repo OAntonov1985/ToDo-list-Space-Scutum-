@@ -10,5 +10,6 @@ export const MainListContainer = styled("ul")(() => ({
     flexDirection: "column",
     gap: 12,
     marginBottom: 24,
-    flex: "auto"
+    flex: "auto",
+    width: "100%"
 }));

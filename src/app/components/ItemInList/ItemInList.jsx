@@ -11,10 +11,19 @@ import { useState } from 'react';
 import edit from "@/app/public/icons/icons8-edit.svg";
 import trash from "@/app/public/icons/trash.svg";
 import { Colors } from '@/constants/colors';
+import { useDispatch } from 'react-redux';
+import { setIsModalOpen } from '@/store/userSclise';
 
 
-export default function ItemInList() {
-    const [isSelected, setSsSelected] = useState(false);
+
+export default function ItemInList({ item }) {
+
+    const [isSelected, setSsSelected] = useState(item.completed);
+    const dispatch = useDispatch();
+
+    if (!item) {
+        return null;
+    }
 
     return (
         <ItemContainer>
@@ -28,22 +37,25 @@ export default function ItemInList() {
                     },
                 }}
             />
-            <ItemText>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis porro amet fugiat numquam eligendi repudiandae eaque aperiam iure perferendis sunt qui, velit beatae minus molestiae doloremque voluptatibus fuga maiores voluptatem?
-            </ItemText>
+            <ItemText isCompleted={isSelected}>{item.title}</ItemText>
             <ItemIconContainer>
                 <ItemIcon
                     src={edit}
+                    id={item.id}
+                    alt='icon edit'
                     width={24}
                     height={16}
+                    onClick={() => dispatch(setIsModalOpen(true))}
                 />
                 <ItemIcon
                     src={trash}
+                    id={item.id}
+                    alt='icon delete'
                     width={24}
                     height={24}
                 />
             </ItemIconContainer>
             <ModalWindow />
         </ItemContainer>
-    )
+    );
 }

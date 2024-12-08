@@ -14,14 +14,14 @@ export const ItemContainer = styled('li')(() => ({
 
 }));
 
-export const ItemText = styled('p')(() => ({
-    color: Colors.Gray100,
+export const ItemText = styled('p')(({ isCompleted }) => ({
+    color: isCompleted ? Colors.Gray300 : Colors.Gray100,
+    textDecoration: isCompleted ? 'line-through' : 'none',
     fontSize: 14,
     lineHeight: "140%",
     display: "flex",
     alignItems: "center",
-    flex: "auto"
-
+    flex: "auto",
 }));
 export const ItemIconContainer = styled('div')(() => ({
     display: "flex",
@@ -32,7 +32,7 @@ export const ItemIconContainer = styled('div')(() => ({
 }));
 
 export const ItemIcon = styled(Image)(() => ({
-
+    cursor: "pointer"
 }));
 
 export const RadioButton = styled(Radio)(() => ({

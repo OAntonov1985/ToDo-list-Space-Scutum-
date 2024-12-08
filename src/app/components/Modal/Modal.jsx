@@ -8,21 +8,22 @@ import {
 } from './Modal.style';
 import { HeaderInputButton } from '../HeaderInputRow/HeaderInputRow.style';
 import { Colors } from '@/constants/colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsModalOpen } from '@/store/userSclise';
+
 
 const text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt porro earum illum quia magnam sapiente sit similique ipsa dolores tenetur, nemo id qui? Voluptatum commodi necessitatibus, molestias accusantium odio itaque!"
 
 export default function ModalWindow() {
-    const [open, setOpen] = useState(false);
     const [inputText, setInputText] = useState(text);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const isModalOpen = useSelector((state) => state.userData.isModalOpen);
+    const dispatch = useDispatch();
 
     return (
         <>
-            <Button onClick={handleOpen}>Open modal</Button>
             <Modal
-                open={open}
-                onClose={handleClose}
+                open={isModalOpen}
+                onClose={() => dispatch(setIsModalOpen(false))}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -52,11 +53,9 @@ export default function ModalWindow() {
                         }}
                     />
                     <ButtonContainer>
-                        <HeaderInputButton onClick={handleClose} disabled={inputText.length < 10 || inputText.length > 500}>Відміна</HeaderInputButton>
-                        <HeaderInputButton onClick={handleClose} disabled={inputText.length < 10 || inputText.length > 500}>Зберегти</HeaderInputButton>
+                        <HeaderInputButton onClick={() => (dispatch(setIsModalOpen(false)), setInputText(text))} >Відміна</HeaderInputButton>
+                        <HeaderInputButton onClick={() => dispatch(setIsModalOpen(false))} disabled={inputText.length < 10 || inputText.length > 500}>Зберегти</HeaderInputButton>
                     </ButtonContainer>
-
-
                 </ModalContainer>
             </Modal>
         </>

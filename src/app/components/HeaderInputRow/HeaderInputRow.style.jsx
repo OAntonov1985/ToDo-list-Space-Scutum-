@@ -10,7 +10,8 @@ export const HeaderInputRowContainer = styled('div')(() => ({
     display: "flex",
     gap: 16,
     position: "relative",
-    top: 28
+    top: 52,
+    height: 84
 }));
 
 export const HeaderInput = styled(Input)(() => ({
@@ -35,9 +36,17 @@ export const HeaderInputButton = styled(Button)(() => ({
     color: Colors.Gray100,
     fontSize: 14,
     fontWeight: "bold",
-    borderRadius: 8
+    borderRadius: 8,
+    height: 56
 }));
 
 export const HeaderInputButtonLogo = styled(Image)(() => ({
     marginLeft: 8
+}));
+
+export const HeaderInputContainer = styled("div")(() => ({
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: 12
 }));
