@@ -22,10 +22,6 @@ export default function ItemInList({ item }) {
 
     const [isSelected, setSsSelected] = useState(item.completed);
     const dispatch = useDispatch();
-    // const currentData = useSelector((state) => state.userData.currentData)
-    // const data = useSelector((state) => state.userData.data)
-    // // console.log(currentData)
-    // // console.log(data)
 
     async function changeCompletedStatusTask(id) {
         const newData = {
@@ -34,8 +30,8 @@ export default function ItemInList({ item }) {
         };
         dispatch(setChangeStatus(newData));
         setSsSelected((prev) => !prev);
-        // const res = await setTaskStatus(newData);   Виклик методу зміни статусу завдання
-        // alert(res.error)
+        const res = await setTaskStatus(newData);  // Виклик методу зміни статусу завдання
+        alert(res.error)
     }
 
     async function deleteItemTask(id) {
