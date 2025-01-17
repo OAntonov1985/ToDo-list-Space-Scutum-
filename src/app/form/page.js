@@ -1,11 +1,14 @@
 "use client"
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation'
 
 export default function Form() {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
+    const router = useRouter();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -40,24 +43,31 @@ export default function Form() {
     }
 
     return (
-        <form style={{ display: "flex", flexDirection: "column", maxWidth: 300, gap: 20 }}>
-            <label htmlFor="email">Email</label>
-            <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-            />
-            <label htmlFor="password">Password</label>
-            <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-            />
-            <button type='submit' onClick={(event) => sendData(event)}>submit</button>
-        </form>
+        <>
+            <form style={{ display: "flex", flexDirection: "column", maxWidth: 300, gap: 20 }}>
+                <label htmlFor="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                />
+                <label htmlFor="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                />
+                <button type='submit' onClick={(event) => sendData(event)}>submit</button>
+
+            </form>
+
+            <button onClick={() => router.push("http://express-app-rouge-mu.vercel.app/api/users/auth/google")}>
+                Redirect
+            </button>
+        </>
     )
 }
